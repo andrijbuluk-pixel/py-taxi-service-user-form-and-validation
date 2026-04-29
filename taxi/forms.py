@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from taxi.models import Driver, Car
 
@@ -15,7 +13,6 @@ class DriverCreationForm(UserCreationForm):
             "last_name",
             "license_number",
         )
-
 
     def clean_license_number(self):
         license_number = self.cleaned_data["license_number"]
