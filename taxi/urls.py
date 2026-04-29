@@ -67,7 +67,7 @@ urlpatterns = [
         name="driver-delete"
     ),
 
-    path("drivers/<int:pk>/car",
+    path("drivers/<int:pk>/car/",
          ToggleCarAssignView.as_view(),
          name="toggle-car"),
 ]

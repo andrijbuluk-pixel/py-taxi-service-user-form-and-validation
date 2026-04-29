@@ -15,6 +15,7 @@
 	<p>Manufacturer: ({{ car.manufacturer.name }}, {{ car.manufacturer.country }})</p>
 
 	<h1>{{ object|yesno:"Update,Create" }}Drivers</h1>
+
 	<form action="{% url 'taxi:toggle-car' pk=car.id %}" method="post">
 		{% csrf_token %}
 		{% if user in car.drivers.all %}
@@ -22,6 +23,10 @@
 		{% else %}
 			<button type="submit" class="btn btn-success">Assign me to this car</button>
 		{% endif %}
+
+		<button type="button" class="btn btn-secondary" onclick="window.history.back()">
+			Cancel
+		</button>
 	</form>
 
 	<hr>
