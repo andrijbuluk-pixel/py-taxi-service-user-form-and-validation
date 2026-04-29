@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from taxi.models import Driver, Car
 
 
-class DriverCreationForm(LoginRequiredMixin, UserCreationForm):
+class DriverCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = Driver
         fields = UserCreationForm.Meta.fields + (
@@ -17,11 +17,12 @@ class DriverCreationForm(LoginRequiredMixin, UserCreationForm):
             "license_number",
         )
 
-    def clean_license_number(self):
-        return validate_license_number(self.cleaned_data["license_number"])
+
+def clean_license_number(self):
+    return validate_license_number(self.cleaned_data["license_number"])
 
 
-class DriverLicenseUpdateForm(LoginRequiredMixin, forms.ModelForm):
+class DriverLicenseUpdateForm(forms.ModelForm):
     class Meta:
         model = Driver
         fields = ("license_number",)
@@ -30,7 +31,6 @@ class DriverLicenseUpdateForm(LoginRequiredMixin, forms.ModelForm):
             return validate_license_number(self.cleaned_data["license_number"])
 
 
-@login_required
 def validate_license_number(license_number):
     if len(license_number) != 8:
         raise ValidationError("License number must consist of 8 characters")
@@ -42,10 +42,11 @@ def validate_license_number(license_number):
 
 
 class CarForm(forms.ModelForm):
-    drivers = forms.ModelChoiceField(
+    drivers = forms.ModelMultipleChoiceField(
         queryset=get_user_model().objects.all(),
         widget=forms.CheckboxSelectMultiple
     )
+
     class Meta:
         model = Car
         fields = "__all__"
