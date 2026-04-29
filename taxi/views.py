@@ -94,7 +94,7 @@ class DriverCreateView(LoginRequiredMixin, generic.CreateView):
     model = Driver
     form_class = DriverCreationForm
     template_name = "taxi/driver_form.html"
-    success_url = reverse_lazy("taxi:driver-create")
+    success_url = reverse_lazy("taxi:driver-list")
 
 
 class DriverUpdateView(LoginRequiredMixin, generic.CreateView):

@@ -13,13 +13,13 @@ class DriverCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + (
             "first_name",
             "last_name",
-            "email",
             "license_number",
         )
 
 
-def clean_license_number(self):
-    return validate_license_number(self.cleaned_data["license_number"])
+    def clean_license_number(self):
+        license_number = self.cleaned_data["license_number"]
+        return validate_license_number(license_number)
 
 
 class DriverLicenseUpdateForm(forms.ModelForm):
@@ -27,8 +27,9 @@ class DriverLicenseUpdateForm(forms.ModelForm):
         model = Driver
         fields = ("license_number",)
 
-        def clean_license_number(self):
-            return validate_license_number(self.cleaned_data["license_number"])
+    def clean_license_number(self):
+        license_number = self.cleaned_data["license_number"]
+        return validate_license_number(license_number)
 
 
 def validate_license_number(license_number):
